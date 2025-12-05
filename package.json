@@ -4,8 +4,8 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev":"nodemon src/index.js"
-    },
+    "dev": "nodemon -r dotenv/config --experimental-json-modules src/index.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mukulraj-web/project.git"
@@ -19,5 +19,10 @@
   "description": "",
   "devDependencies": {
     "nodemon": "^3.1.11"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "mongoose": "^9.0.1"
   }
 }
