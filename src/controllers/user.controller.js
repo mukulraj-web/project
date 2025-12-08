@@ -13,18 +13,19 @@ const registerUser = asyncHandler(async (req,res) => {
     )  {
         throw new ApiError(400, "All fields are required");
      }
-    const existedUser = User.findOne({
+    const existedUser = await User.findOne({
         $or: [{username},{email}]
      })
      console.log("the current user existence is: ",existedUser);
      if(existedUser){
         throw new ApiError(409, "User with email or username already exists")
      }
-
+     // logging the req files
+    //  console.log("REQ. FILES: ",req.files);
      const avatarLocalPath = req.files?.avatar[0].path;
-     console.log("the local file path is : ", avatarLocalPath);
+    //  console.log("the local file path is : ", avatarLocalPath);
      const coverImageLocalPath = req.files?.coverImage[0].path;
-     console.log("the local path of the cover image is : ", coverImageLocalPath);
+    //  console.log("the local path of the cover image is : ", coverImageLocalPath);
 
      if(!avatarLocalPath){
         throw new ApiError(400, "Avatar file is required");
@@ -43,15 +44,17 @@ const registerUser = asyncHandler(async (req,res) => {
         password,
         username:username.toLowerCase()
     })
-    const createdUser = user.findById(user._id).select(
+    // console.log("user creation completed back to user.controllers.js")
+    const createdUser = await User.findById(user._id).select(
         "-password -refreshToken"
     )
     if(!createdUser){
         throw new ApiError(500, "Something went wrong while registering the user");
     }
     return res.status(201).json(
-        new ApiResponse(201, createdUser, "User registered succesfully" )
-    )
+        new ApiResponse(201, createdUser, "User registered successfully")
+);
+
 })
 
  export default registerUser;

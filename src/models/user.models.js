@@ -33,7 +33,7 @@ const userSchema = new Schema(
         },
         watchHistory : [ 
         {
-            type: Schema.Type.ObjectId,
+            type: Schema.Types.ObjectId,
             ref: "Video"
         }
         ],
@@ -55,7 +55,8 @@ const userSchema = new Schema(
 userSchema.pre("save",async function(next){
     if(!this.isModified("password")) return next();
     this.password = await bcrypt.hash(this.password, 10)
-    next()
+    // console.log("the hashed password is",this.password);
+    next
 })
 userSchema.methods.isPasswordCorrect = async function(password){
      return await bcrypt.compare(password, this.password )
