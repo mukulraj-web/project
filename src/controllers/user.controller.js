@@ -7,7 +7,7 @@ import {ApiResponse} from "../utils/ApiResponse.js";
 
 const registerUser = asyncHandler(async (req,res) => {
      const {fullname, email, username, password} = req.body;
-     console.log("email: ",email );
+    //  console.log("email: ",email );
      if([fullname, email, username, password].some((field)=>
         field?.trim() === "")
     )  {
@@ -16,7 +16,7 @@ const registerUser = asyncHandler(async (req,res) => {
     const existedUser = await User.findOne({
         $or: [{username},{email}]
      })
-     console.log("the current user existence is: ",existedUser);
+    //  console.log("the current user existence is: ",existedUser);
      if(existedUser){
         throw new ApiError(409, "User with email or username already exists")
      }
@@ -24,8 +24,15 @@ const registerUser = asyncHandler(async (req,res) => {
     //  console.log("REQ. FILES: ",req.files);
      const avatarLocalPath = req.files?.avatar[0].path;
     //  console.log("the local file path is : ", avatarLocalPath);
-     const coverImageLocalPath = req.files?.coverImage[0].path;
-    //  console.log("the local path of the cover image is : ", coverImageLocalPath);
+    //  const coverImageLocalPath = req.files?.coverImage[0].path;
+    // if(!coverImageLocalPath == ""){ 
+    // console.log("the local path of the cover image is : ", coverImageLocalPath);
+    // }
+
+    let coverImageLocalPath;
+    if(req.files && Array.isArray(req.files.coverImage) && req.files.coverImage.length > 0 ){
+        coverImageLocalPath = req.files.coverImage[0].path
+    }
 
      if(!avatarLocalPath){
         throw new ApiError(400, "Avatar file is required");
