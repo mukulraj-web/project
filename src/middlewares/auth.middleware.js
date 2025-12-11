@@ -1,4 +1,4 @@
-import { asyncHandler } from "../utils/asyncHandler";
+import { asyncHandler } from "../utils/asyncHandler.js";
 import {ApiError} from "../utils/ApiError.js";
 import jwt from "jsonwebtoken";
 import {User} from "../models/user.models.js"
@@ -21,6 +21,6 @@ if(!user){
 req.user = user;
 next()
     } catch(err){
-        throw new ApiError(401, error?.message || "Invallid access token")
+        throw new ApiError(401, err?.message || "Invallid access token")
     }
 })
