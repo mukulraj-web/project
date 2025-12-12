@@ -30,5 +30,9 @@ const uploadOnCloudinary = async (localFilePath) => {
         return null
     }
 } 
+// #### destroying the asset from clodinary
+// const deleteFromCloudinary = async (publicId) => {
+//     cloudinary.v2.uploader.destroy()
+// }
 
-export {uploadOnCloudinary}
+export {uploadOnCloudinary, deleteFromCloudinary}
